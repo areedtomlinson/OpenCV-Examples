@@ -1,0 +1,72 @@
+---
+  # Install packages, create folder structure
+
+  # below, update_cache=yes seems to do nothing. manually do apt-get update for now.
+  # see https://github.com/ansible/ansible-modules-core/issues/1497
+  - name: apt-get update
+    become: yes
+    command: apt-get update
+
+  # Install packages that need a PPA, or have other
+  # special installation steps
+  - include: tasks/ansible.yml
+
+  - name: install system packages
+    become: yes
+    apt: pkg={{ item }} state=present update_cache=yes
+    with_items:
+      - python-virtualenv
+      - build-essential
+      - unzip
+      - git
+      - curl
+      - python-pip
+      - python3-pip
+      - cmake
+      - cmake-curses-gui
+      - python-dev
+      - ipython
+      - python-dev
+      - pkg-config
+      - libjpeg8-dev
+      - libtiff5-dev
+      - libjasper-dev
+      - libpng12-dev
+      - libavcodec-dev
+      - libavformat-dev
+      - libswscale-dev
+      - libv4l-dev
+      - libgtk2.0-dev
+      - libatlas-base-dev
+      - gfortran
+
+  - name: Set up build environment
+    file: path={{ home }}/{{ item }} state=directory mode=0755 owner={{ build_user }}
+    with_items:
+    - source
+    - .ssh
+    become: true
+
+  # - name: create virtualenv with python3.5
+  #   shell: "virtualenv {{ virtualenv_path }} -p python3.5"
+  #   become: true
+
+  # - name: Source env on ssh
+  #   lineinfile: dest={{ home }}/.bashrc line=". {{ app_path }}/django_enterprise_env.sh"
+  #   become: true
+
+  - name: copy github key to vagrant environment
+    copy: src=../resources/secrets/gh-key dest={{ home }}/.ssh/github_key
+          owner={{ build_user }} group={{ build_user }} mode=0700
+    become: true
+
+  - name: pip install
+    pip:
+      requirements: "{{ app_path }}/requirements.txt"
+
+  - name: pip3 install
+    pip:
+      requirements: "{{ app_path }}/requirements.txt"
+      executable: pip3
+
+# https://www.pyimagesearch.com/2015/07/20/install-opencv-3-0-and-python-3-4-on-ubuntu/

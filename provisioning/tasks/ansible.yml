@@ -1,0 +1,10 @@
+---
+  # Install Ansible from PPA
+
+  - name: add ansible ppa
+    become: yes
+    apt_repository: repo='ppa:ansible/ansible'
+
+  - name: install ansible
+    become: yes
+    apt: pkg=ansible state=present

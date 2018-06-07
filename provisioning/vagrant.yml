@@ -1,0 +1,24 @@
+---
+- hosts: all
+  # Since Xenial ships with python3 and ansible requires python2, install python2 as a pre-task
+  gather_facts: no  # crucial, because we can't gather facts yet (we don't have python installed yet)
+  pre_tasks:
+    - name: Install Python 2
+      raw: sudo apt-get install -y python-simplejson  # This package will install python2
+
+  tasks:
+  # below, update_cache=yes seems to do nothing. manually do apt-get update for now.
+  # see https://github.com/ansible/ansible-modules-core/issues/1497
+  - name: apt update # there's a bug with the apt module so this has to be done manually
+    become: yes
+    command: apt-get update
+
+  - include: tasks/base-install.yml
+
+  vars:
+    env: local
+    branch: develop
+    build_user: ubuntu
+    home: /home/{{ build_user }}
+    python_path: "{{ home }}/.venv/bin/python"
+    virtualenv_path: "{{ home }}/.venv"

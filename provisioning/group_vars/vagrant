@@ -1,0 +1,6 @@
+---
+  env: local
+  build_user: vagrant
+  home: /home/{{ build_user }}
+  virtualenv_path: "{{ home }}/.venv"
+  python_path: "{{ home }}/.venv/bin/python"

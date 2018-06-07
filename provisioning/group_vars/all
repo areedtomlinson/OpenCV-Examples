@@ -1,0 +1,6 @@
+---
+  app_path: /var/www
+  build_user: ubuntu
+  home: /home/ubuntu
+  virtualenv_path: "{{ home }}/.venv"
+  python_path: "{{ home }}/.venv/bin/python"
