@@ -1,5 +1,5 @@
 ---
-  app_path: /var/www
+  app_path: /home/vagrant/opencv_examples
   build_user: ubuntu
   home: /home/ubuntu
   virtualenv_path: "{{ home }}/.venv"

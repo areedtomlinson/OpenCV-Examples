@@ -15,6 +15,11 @@
 
   - include: tasks/base-install.yml
 
+  # Check if OpenCV is installed in Python 2. If not, install OpenCV in both Python 2 and Python 3.
+  - name: Install OpenCV (if it's missing)
+    command: "python {{ app_path }}/provisioning/tasks/install_opencv.py"
+    become: true
+
   vars:
     env: local
     branch: develop

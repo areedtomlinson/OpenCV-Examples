@@ -26,6 +26,11 @@
       - cmake-curses-gui
       - python-dev
       - ipython
+      - ipython-notebook
+      - python-tk
+      - ipython3
+      - ipython3-notebook
+      - python3-tk
       - python-dev
       - pkg-config
       - libjpeg8-dev
@@ -68,5 +73,3 @@
     pip:
       requirements: "{{ app_path }}/requirements.txt"
       executable: pip3
-
-# https://www.pyimagesearch.com/2015/07/20/install-opencv-3-0-and-python-3-4-on-ubuntu/
